@@ -4,6 +4,7 @@ Artifact is a signal, caused by an extracerebral source, observed during EEG rec
  
 This web app is provided to offer a friendly, automatic, and reliable tool for (currently) non-expert use and students.
  All that is required is to upload an EEG file, choose the strictness of cleaning (default or fine-tuned), and click Start. A cleaned version of the data is then made available for download, ready for use.
+ visit:(https://YOUR-STREAMLIT-URL)
  
 The tool’s parameters were carefully chosen after a training process using different methods (RNN, CNNs) and were tested with real data, approaching ~96% accuracy and ~0.96 AUC-PR, and are supported by scientific studies.
 However, it is still under development to match professional use, since training was performed mainly on data selected from Fp1 and Fp2 channels (sufficient for blink artifacts). Coverage is planned to be expanded to all eye artifacts (voluntary and involuntary), and then to be extended gradually to other physiological, technical, and environmental artifacts.
