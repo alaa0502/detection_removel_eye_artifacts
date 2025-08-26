@@ -88,7 +88,7 @@ div[data-testid="stFileUploaderDropzone"] {
 with st.sidebar:
     with st.sidebar:
         st.markdown("### Demo")
-        ddemo_files = [
+        demo_files = [
     ("⬇️ Demo — S018R02 (raw)", "demo/S018R02.edf"),
     ("⬇️ Demo — S026R02 (raw)", "demo/S026R02.edf"),
     ("⬇️ Demo — S028R02 (raw)", "demo/S028R02.edf"),
