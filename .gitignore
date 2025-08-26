@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.venv/
+venv/
+ENV/
+.DS_Store
+
+# Streamlit
+.streamlit/
+secrets.toml
+
+# Notebooks & large data (keep out unless tiny)
+*.ipynb_checkpoints/
+data/
+outputs/
+uploaded_tmp.edf
+
