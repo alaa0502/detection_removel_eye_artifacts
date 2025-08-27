@@ -58,12 +58,17 @@ section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
 }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
 
-/* ⬇️ Make the sidebar titles larger ("Demo", "Resources") and closer to content */
+/* ⬇️ Sidebar titles ("Demo", "Resources") — tighter spacing to content */
 section[data-testid="stSidebar"] h3 {
   color: #F3F4F6;
   font-size: 1.5rem;
   line-height: 1.2;
-  margin: 0.2rem 0 0.35rem 0 !important;     /* ↓ pulls the list closer to the title */
+  margin: 0.05rem 0 0.15rem 0 !important;    /* ultra-tight above & below the title */
+}
+
+/* Reduce vertical spacing between sidebar markdown blocks */
+section[data-testid="stSidebar"] [data-testid="stMarkdown"] {
+  margin: 0.1rem 0 !important;
 }
 
 /* uploader card: white and slightly raised */
@@ -139,7 +144,7 @@ with st.sidebar:
           section[data-testid="stSidebar"] { position: relative; z-index: 5; overflow: visible !important; }
           section[data-testid="stSidebar"] > div { overflow: visible !important; }
           section[data-testid="stSidebar"] ul.res-list { list-style: none; padding-left: 0; margin: 0; }
-          section[data-testid="stSidebar"] ul.res-list li { margin: 6px 0 !important; }  /* tighter items */
+          section[data-testid="stSidebar"] ul.res-list li { margin: 2px 0 !important; }  /* even tighter items */
           section[data-testid="stSidebar"] .tooltip.label {
             position: relative; display: inline-block; cursor: default;
             color: #BFDBFE; font-weight: 600; text-decoration: none;
