@@ -38,38 +38,32 @@ section[data-testid="stSidebar"] > div {
   padding-top: 0 !important;                 /* pull content up */
 }
 section[data-testid="stSidebar"] { padding-top: 0 !important; }
-section[data-testid="stSidebar"] h3:first-of-type {
-  margin-top: 0 !important;                  /* no gap over "Demo" */
-}
-section[data-testid="stSidebar"] p {          /* caption under Demo */
-  margin: 0.25rem 0 0.5rem 0 !important;     /* tighter caption */
-}
-
-/* Demo buttons: a little smaller */
-section[data-testid="stSidebar"] [data-testid="stDownloadButton"] {
-  margin: 3px 0 !important;                  /* tighter gaps */
-}
-section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > button,
-section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
-  padding: 4px 8px !important;               /* shorter, narrower */
-  min-height: 28px !important;               /* lower height */
-  font-size: 0.85rem !important;             /* smaller text */
-  line-height: 1.15 !important;
-  border-radius: 8px !important;             /* slightly less rounded */
-}
+section[data-testid="stSidebar"] h3:first-of-type { margin-top: 0 !important; }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
 
-/* ⬇️ Sidebar titles ("Demo", "Resources") — ultra-tight to content */
+/* Sidebar titles ("Demo", "Resources") — ultra-tight to content */
 section[data-testid="stSidebar"] h3 {
   color: #F3F4F6;
   font-size: 1.5rem;
-  line-height: 1.1;                          /* slightly tighter line box */
-  margin: 0 !important;                      /* remove all margins */
+  line-height: 1.1;
+  margin: 0 !important;
 }
 
-/* Remove extra vertical space between ALL sidebar markdown blocks */
-section[data-testid="stSidebar"] [data-testid="stMarkdown"] {
-  margin: 0 !important;
+/* Reduce extra vertical space between ALL sidebar markdown blocks */
+section[data-testid="stSidebar"] [data-testid="stMarkdown"] { margin: 0 !important; }
+
+/* Demo caption spacing */
+section[data-testid="stSidebar"] p { margin: 0.25rem 0 0.5rem 0 !important; }
+
+/* Demo buttons: a little smaller + tighter gaps */
+section[data-testid="stSidebar"] [data-testid="stDownloadButton"] { margin: 3px 0 !important; }
+section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > button,
+section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
+  padding: 4px 8px !important;
+  min-height: 28px !important;
+  font-size: 0.85rem !important;
+  line-height: 1.15 !important;
+  border-radius: 8px !important;
 }
 
 /* uploader card: white and slightly raised */
@@ -140,6 +134,7 @@ with st.sidebar:
 
         st.markdown("### Resources")
 
+        # ── Resources CSS: notes show ABOVE the label (forced) ──
         st.markdown("""
         <style>
           section[data-testid="stSidebar"] { position: relative; z-index: 5; overflow: visible !important; }
@@ -151,7 +146,7 @@ with st.sidebar:
             padding-left: 0;
             margin: -0.20rem 0 0 0 !important;  /* slight negative to hug the title */
           }
-          section[data-testid="stSidebar"] ul.res-list li { margin: 0 !important; }  /* no gaps between items */
+          section[data-testid="stSidebar"] ul.res-list li { margin: 0 !important; }
 
           section[data-testid="stSidebar"] .tooltip.label {
             position: relative; display: inline-block; cursor: default;
@@ -159,31 +154,37 @@ with st.sidebar:
           }
           section[data-testid="stSidebar"] .tooltip.label:hover { text-decoration: underline; }
 
-          /* NOTE ABOVE THE LABEL (instead of below) */
+          /* ⬆️ Show note ABOVE the label (forced with !important) */
           section[data-testid="stSidebar"] .tooltip .note {
             position: absolute;
             left: 0;
-            top: auto;                                 /* reset */
-            bottom: calc(100% + 8px);                  /* show above the label */
+            top: auto !important;
+            bottom: calc(100% + 12px) !important;   /* appears above, with a little offset */
             width: min(480px, 90vw);
             background: #0A1F44; color: #FFFFFF; padding: 12px 14px; border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.35); font-size: 1.18rem; line-height: 1.5;
             opacity: 0; visibility: hidden; transition: opacity .15s ease, visibility .15s ease;
-            z-index: 99999; pointer-events: auto; white-space: normal;
+            z-index: 2147483647 !important;         /* sit on top of everything */
+            pointer-events: auto; white-space: normal;
           }
-          /* Arrow now at the BOTTOM of the note, pointing down to the label */
+
+          /* 🔻 Arrow now at the bottom, pointing down to the label */
           section[data-testid="stSidebar"] .tooltip .note:after {
             content: "";
             position: absolute;
             left: 16px;
-            top: auto;                                  /* reset top */
-            bottom: -8px;                               /* arrow sits below the note */
+            top: auto !important;
+            bottom: -8px !important;                /* arrow below the note block */
             border-width: 8px;
             border-style: solid;
-            border-color: #0A1F44 transparent transparent transparent; /* down-pointing triangle */
+            border-color: #0A1F44 transparent transparent transparent; /* down-pointing */
           }
 
-          section[data-testid="stSidebar"] .tooltip:hover .note { opacity: 1; visibility: visible; }
+          /* Keep note visible when hovering into it (not just the label) */
+          section[data-testid="stSidebar"] .tooltip:hover .note,
+          section[data-testid="stSidebar"] .tooltip .note:hover {
+            opacity: 1; visibility: visible;
+          }
 
           @media (max-width: 1200px) {
             section[data-testid="stSidebar"] .tooltip .note { width: 95%; }
