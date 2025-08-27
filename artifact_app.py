@@ -88,6 +88,7 @@ div[data-testid="stFileUploaderDropzone"] {
 with st.sidebar:
     with st.sidebar:
         st.markdown("### Demo")
+        st.caption("Demo files are available for you to try. Source: [PhysioNet EEGMMI Database](https://physionet.org/content/eegmmidb/1.0.0/).")
         demo_files = [
     ("⬇️ Demo — S018R02 (raw)", "demo/S018R02.edf"),
     ("⬇️ Demo — S026R02 (raw)", "demo/S026R02.edf"),
