@@ -29,25 +29,35 @@ st.markdown("""
 /* title color (same dark as sidebar) */
 h1, h2, h3 { color: #111827; }
 
-/* sidebar: dark background + light text/links
-   + pull content upward and tighten Demo spacing */
+/* ───────────────────────────────
+   Sidebar styling + compaction
+   ─────────────────────────────── */
 section[data-testid="stSidebar"] > div {
   background-color: #111827;
   color: #E5E7EB;
-  padding-top: 0 !important;               /* ⬅️ was default; now pulled up */
+  padding-top: 0 !important;                 /* pull content up */
 }
-section[data-testid="stSidebar"] h3:first-of-type {  /* first heading: "Demo" */
-  margin-top: 0 !important;                /* ⬅️ no extra gap above Demo */
+section[data-testid="stSidebar"] { padding-top: 0 !important; }
+section[data-testid="stSidebar"] h3:first-of-type {
+  margin-top: 0 !important;                  /* no gap over "Demo" */
 }
-section[data-testid="stSidebar"] p {        /* caption under Demo */
-  margin: 0.25rem 0 0.5rem 0 !important;   /* ⬅️ tighter than default */
+section[data-testid="stSidebar"] p {          /* caption under Demo */
+  margin: 0.25rem 0 0.5rem 0 !important;     /* tighter caption */
 }
 section[data-testid="stSidebar"] [data-testid="stDownloadButton"] {
-  margin: 6px 0 !important;                /* ⬅️ smaller gaps between demo buttons */
+  margin: 4px 0 !important;                  /* smaller gaps between buttons */
+}
+section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > button,
+section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
+  padding: 6px 10px !important;              /* shorter buttons */
+  min-height: 32px !important;
+  line-height: 1.15 !important;
+  font-size: 0.92rem !important;
+  border-radius: 10px !important;
 }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
 
-/* ⬇️ Make the sidebar title larger (Resources) */
+/* ⬇️ Make the sidebar titles larger ("Demo", "Resources") */
 section[data-testid="stSidebar"] h3 {
   color: #F3F4F6;
   font-size: 1.5rem;
@@ -63,7 +73,6 @@ div[data-testid="stFileUploader"] {
   padding: 16px;
   box-shadow: 0 1px 2px rgba(0,0,0,0.03);
 }
-/* inner dropzone also white */
 div[data-testid="stFileUploaderDropzone"] {
   background: #FFFFFF !important;
   border-radius: 10px;
@@ -96,8 +105,9 @@ div[data-testid="stFileUploaderDropzone"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ---- Sidebar (Sources) ----
+# ---- Sidebar ----
 with st.sidebar:
+    # (Keep your nested sidebar block if you like; not required)
     with st.sidebar:
         st.markdown("### Demo")
         st.caption("Demo files are available for you to try. Source: [PhysioNet EEGMMI Database](https://physionet.org/content/eegmmidb/1.0.0/).")
@@ -312,7 +322,6 @@ if st.button("▶️ Start", key="start_btn"):
 
             out_path = os.path.splitext(uploaded.name)[0] + "_clean.edf"
 
-            # ✅ Pass logic as 'either' | 'both' | 'single' (no mapping)
             saved_path, n_segments, total_masked_sec = clean_edf_file(
                 in_path=in_path,
                 out_path=out_path,
@@ -327,7 +336,7 @@ if st.button("▶️ Start", key="start_btn"):
                 ss.clean_bytes = f.read()
             ss.clean_filename = out_path
             ss.clean_path = saved_path
-            ss.disclaimer_pending = True  # show modal for both modes
+            ss.disclaimer_pending = True
 
         except Exception as e:
             st.error(f"Processing failed: {e}")
@@ -425,7 +434,7 @@ if ss.clean_path:
             for i, ch in enumerate(raw_clean.ch_names[:8]):
                 fig.add_trace(go.Scatter(
                     x=times_plot,
-                    y=(data_plot[i] * 1e6) + i * 200,  # µV + vertical offset
+                    y=(data_plot[i] * 1e6) + i * 200,
                     mode="lines",
                     name=ch,
                     hoverinfo="skip"
