@@ -58,17 +58,24 @@ section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
 }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
 
-/* ⬇️ Sidebar titles ("Demo", "Resources") — tighter spacing to content */
+/* ⬇️ Sidebar titles ("Demo", "Resources") — even tighter to content */
 section[data-testid="stSidebar"] h3 {
   color: #F3F4F6;
   font-size: 1.5rem;
   line-height: 1.2;
-  margin: 0.05rem 0 0.15rem 0 !important;    /* ultra-tight above & below the title */
+  margin: 0.02rem 0 0.10rem 0 !important;    /* ultra-tight above & below the title */
 }
 
-/* Reduce vertical spacing between sidebar markdown blocks */
+/* Kill the extra vertical space Streamlit adds between markdown blocks in the sidebar */
 section[data-testid="stSidebar"] [data-testid="stMarkdown"] {
-  margin: 0.1rem 0 !important;
+  margin: 0.05rem 0 !important;              /* very small block margins */
+}
+/* Especially tighten the blocks immediately after the "Resources" h3
+   (first block is your <style>, second is the <ul>) */
+section[data-testid="stSidebar"] h3 + div[data-testid="stMarkdown"],
+section[data-testid="stSidebar"] h3 + div[data-testid="stMarkdown"] + div[data-testid="stMarkdown"] {
+  margin-top: 0 !important;
+  margin-bottom: 0.05rem !important;
 }
 
 /* uploader card: white and slightly raised */
@@ -143,8 +150,8 @@ with st.sidebar:
         <style>
           section[data-testid="stSidebar"] { position: relative; z-index: 5; overflow: visible !important; }
           section[data-testid="stSidebar"] > div { overflow: visible !important; }
-          section[data-testid="stSidebar"] ul.res-list { list-style: none; padding-left: 0; margin: 0; }
-          section[data-testid="stSidebar"] ul.res-list li { margin: 2px 0 !important; }  /* even tighter items */
+          section[data-testid="stSidebar"] ul.res-list { list-style: none; padding-left: 0; margin: 0 !important; }
+          section[data-testid="stSidebar"] ul.res-list li { margin: 0 !important; }  /* zero gap between items */
           section[data-testid="stSidebar"] .tooltip.label {
             position: relative; display: inline-block; cursor: default;
             color: #BFDBFE; font-weight: 600; text-decoration: none;
@@ -420,56 +427,4 @@ if ss.clean_bytes and not ss.disclaimer_pending:
             )
 
 # ========================
-# Interactive preview (whole file) with Plotly rangeslider
-# ========================
-if ss.clean_path:
-    try:
-        raw_clean = mne.io.read_raw_edf(ss.clean_path, preload=True, verbose=False)
-        sf = float(raw_clean.info["sfreq"])
-        times = raw_clean.times
-        data, _ = raw_clean[:, :]
-
-        if PLOTLY_AVAILABLE:
-            n_samples = data.shape[1]
-            max_points = 20000
-            step = max(1, n_samples // max_points)
-            times_plot = times[::step] if step > 1 else times
-            data_plot = data[:, ::step] if step > 1 else data
-
-            fig = go.Figure()
-            for i, ch in enumerate(raw_clean.ch_names[:8]):
-                fig.add_trace(go.Scatter(
-                    x=times_plot,
-                    y=(data_plot[i] * 1e6) + i * 200,  # µV + vertical offset
-                    mode="lines",
-                    name=ch,
-                    hoverinfo="skip"
-                ))
-            fig.update_layout(
-                height=420,
-                margin=dict(l=40, r=20, t=40, b=40),
-                showlegend=False,
-                xaxis=dict(title="Time (s)", rangeslider=dict(visible=True), zeroline=False),
-                yaxis=dict(title="µV (offset per ch)", zeroline=False)
-            )
-            st.plotly_chart(fig, use_container_width=True)
-        else:
-            st.warning("For in-plot scrolling, install Plotly: `pip install plotly`. Showing a 10 s Matplotlib preview instead.")
-            max_secs = min(10.0, times[-1])
-            start_sample = 0
-            stop_sample = int(max_secs * sf)
-            data10 = data[:, start_sample:stop_sample]
-            times10 = times[start_sample:stop_sample]
-
-            import matplotlib.pyplot as plt
-            plt.figure(figsize=(12, 5))
-            for i, ch in enumerate(raw_clean.ch_names[:8]):
-                plt.plot(times10, data10[i] * 1e6 + i * 200, label=ch)
-            plt.xlabel("Time (s)")
-            plt.ylabel("µV (offset per ch)")
-            plt.title("Cleaned EEG — first 10s")
-            plt.tight_layout()
-            st.pyplot(plt.gcf(), clear_figure=True)
-
-    except Exception as e:
-        st.warning(f"Preview unavailable: {e}")
+# Interactive preview (whole file) with Plot
