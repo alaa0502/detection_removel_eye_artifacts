@@ -23,22 +23,30 @@ st.title("Automatic detection and removal of eye artifacts")
 # ---- Theme: light page, white uploader, dark sidebar & title ----
 st.markdown("""
 <style>
-/* Nudge sidebar content up so "Demo" sits higher */
-section[data-testid="stSidebar"] > div { padding-top: 0 !important; }
-section[data-testid="stSidebar"] h3:first-of-type { margin-top: 0.25rem !important; }
-
 /* page background (very light grey) */
 [data-testid="stAppViewContainer"] { background-color: #F5F6F8; }
 
 /* title color (same dark as sidebar) */
 h1, h2, h3 { color: #111827; }
 
-/* sidebar: dark background + light text/links */
+/* sidebar: dark background + light text/links
+   + pull content upward and tighten Demo spacing */
 section[data-testid="stSidebar"] > div {
   background-color: #111827;
   color: #E5E7EB;
+  padding-top: 0 !important;               /* ⬅️ was default; now pulled up */
+}
+section[data-testid="stSidebar"] h3:first-of-type {  /* first heading: "Demo" */
+  margin-top: 0 !important;                /* ⬅️ no extra gap above Demo */
+}
+section[data-testid="stSidebar"] p {        /* caption under Demo */
+  margin: 0.25rem 0 0.5rem 0 !important;   /* ⬅️ tighter than default */
+}
+section[data-testid="stSidebar"] [data-testid="stDownloadButton"] {
+  margin: 6px 0 !important;                /* ⬅️ smaller gaps between demo buttons */
 }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
+
 /* ⬇️ Make the sidebar title larger (Resources) */
 section[data-testid="stSidebar"] h3 {
   color: #F3F4F6;
@@ -93,10 +101,11 @@ with st.sidebar:
     with st.sidebar:
         st.markdown("### Demo")
         st.caption("Demo files are available for you to try. Source: [PhysioNet EEGMMI Database](https://physionet.org/content/eegmmidb/1.0.0/).")
+
         demo_files = [
-    ("⬇️ Demo — S018R02 (raw)", "demo/S018R02.edf"),
-    ("⬇️ Demo — S026R02 (raw)", "demo/S026R02.edf"),
-    ("⬇️ Demo — S028R02 (raw)", "demo/S028R02.edf"),
+            ("⬇️ Demo — S018R02 (raw)", "demo/S018R02.edf"),
+            ("⬇️ Demo — S026R02 (raw)", "demo/S026R02.edf"),
+            ("⬇️ Demo — S028R02 (raw)", "demo/S028R02.edf"),
         ]
         for label, path in demo_files:
             try:
@@ -308,7 +317,7 @@ if st.button("▶️ Start", key="start_btn"):
                 in_path=in_path,
                 out_path=out_path,
                 logic=ss.channel_logic,
-                des_thresh=ss.threshold_value   # keep your decision threshold
+                des_thresh=ss.threshold_value
             )
 
             st.success(f"Cleaned {uploaded.name}")
