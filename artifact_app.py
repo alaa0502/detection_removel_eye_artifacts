@@ -145,7 +145,7 @@ with st.sidebar:
           section[data-testid="stSidebar"] { position: relative; z-index: 5; overflow: visible !important; }
           section[data-testid="stSidebar"] > div { overflow: visible !important; }
 
-          /* Tighter list metrics right under "Resources" */
+          /* List tight to the "Resources" title */
           section[data-testid="stSidebar"] ul.res-list {
             list-style: none;
             padding-left: 0;
@@ -159,20 +159,30 @@ with st.sidebar:
           }
           section[data-testid="stSidebar"] .tooltip.label:hover { text-decoration: underline; }
 
+          /* NOTE ABOVE THE LABEL (instead of below) */
           section[data-testid="stSidebar"] .tooltip .note {
-            position: absolute; left: 0; top: calc(100% + 8px); width: min(480px, 90vw);
+            position: absolute;
+            left: 0;
+            top: auto;                                 /* reset */
+            bottom: calc(100% + 8px);                  /* show above the label */
+            width: min(480px, 90vw);
             background: #0A1F44; color: #FFFFFF; padding: 12px 14px; border-radius: 10px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.35); font-size: 1.18rem; line-height: 1.5;
             opacity: 0; visibility: hidden; transition: opacity .15s ease, visibility .15s ease;
             z-index: 99999; pointer-events: auto; white-space: normal;
           }
-          section[data-testid="stSidebar"] .tooltip .note a {
-            color: #BFDBFE; text-decoration: underline; font-weight: 600;
-          }
+          /* Arrow now at the BOTTOM of the note, pointing down to the label */
           section[data-testid="stSidebar"] .tooltip .note:after {
-            content: ""; position: absolute; left: 16px; top: -8px;
-            border-width: 8px; border-style: solid; border-color: transparent transparent #0A1F44 transparent;
+            content: "";
+            position: absolute;
+            left: 16px;
+            top: auto;                                  /* reset top */
+            bottom: -8px;                               /* arrow sits below the note */
+            border-width: 8px;
+            border-style: solid;
+            border-color: #0A1F44 transparent transparent transparent; /* down-pointing triangle */
           }
+
           section[data-testid="stSidebar"] .tooltip:hover .note { opacity: 1; visibility: visible; }
 
           @media (max-width: 1200px) {
