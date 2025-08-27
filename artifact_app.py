@@ -44,16 +44,17 @@ section[data-testid="stSidebar"] h3:first-of-type {
 section[data-testid="stSidebar"] p {          /* caption under Demo */
   margin: 0.25rem 0 0.5rem 0 !important;     /* tighter caption */
 }
+/* Demo buttons: a little smaller */
 section[data-testid="stSidebar"] [data-testid="stDownloadButton"] {
-  margin: 4px 0 !important;                  /* smaller gaps between buttons */
+  margin: 3px 0 !important;                  /* tighter gaps */
 }
 section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > button,
 section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
-  padding: 6px 10px !important;              /* shorter buttons */
-  min-height: 32px !important;
+  padding: 4px 8px !important;               /* shorter, narrower */
+  min-height: 28px !important;               /* lower height */
+  font-size: 0.85rem !important;             /* smaller text */
   line-height: 1.15 !important;
-  font-size: 0.92rem !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;             /* slightly less rounded */
 }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
 
@@ -107,7 +108,6 @@ div[data-testid="stFileUploaderDropzone"] {
 
 # ---- Sidebar ----
 with st.sidebar:
-    # (Keep your nested sidebar block if you like; not required)
     with st.sidebar:
         st.markdown("### Demo")
         st.caption("Demo files are available for you to try. Source: [PhysioNet EEGMMI Database](https://physionet.org/content/eegmmidb/1.0.0/).")
