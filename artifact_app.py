@@ -58,11 +58,12 @@ section[data-testid="stSidebar"] [data-testid="stDownloadButton"] > a {
 }
 section[data-testid="stSidebar"] a { color: #BFDBFE !important; }
 
-/* ⬇️ Make the sidebar titles larger ("Demo", "Resources") */
+/* ⬇️ Make the sidebar titles larger ("Demo", "Resources") and closer to content */
 section[data-testid="stSidebar"] h3 {
   color: #F3F4F6;
   font-size: 1.5rem;
   line-height: 1.2;
+  margin: 0.2rem 0 0.35rem 0 !important;     /* ↓ pulls the list closer to the title */
 }
 
 /* uploader card: white and slightly raised */
@@ -138,7 +139,7 @@ with st.sidebar:
           section[data-testid="stSidebar"] { position: relative; z-index: 5; overflow: visible !important; }
           section[data-testid="stSidebar"] > div { overflow: visible !important; }
           section[data-testid="stSidebar"] ul.res-list { list-style: none; padding-left: 0; margin: 0; }
-          section[data-testid="stSidebar"] ul.res-list li { margin: 12px 0; }
+          section[data-testid="stSidebar"] ul.res-list li { margin: 6px 0 !important; }  /* tighter items */
           section[data-testid="stSidebar"] .tooltip.label {
             position: relative; display: inline-block; cursor: default;
             color: #BFDBFE; font-weight: 600; text-decoration: none;
@@ -434,7 +435,7 @@ if ss.clean_path:
             for i, ch in enumerate(raw_clean.ch_names[:8]):
                 fig.add_trace(go.Scatter(
                     x=times_plot,
-                    y=(data_plot[i] * 1e6) + i * 200,
+                    y=(data_plot[i] * 1e6) + i * 200,  # µV + vertical offset
                     mode="lines",
                     name=ch,
                     hoverinfo="skip"
