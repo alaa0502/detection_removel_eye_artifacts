@@ -23,6 +23,10 @@ st.title("Automatic detection and removal of eye artifacts")
 # ---- Theme: light page, white uploader, dark sidebar & title ----
 st.markdown("""
 <style>
+/* Nudge sidebar content up so "Demo" sits higher */
+section[data-testid="stSidebar"] > div { padding-top: 8px !important; }
+section[data-testid="stSidebar"] h3:first-of-type { margin-top: 0.25rem !important; }
+
 /* page background (very light grey) */
 [data-testid="stAppViewContainer"] { background-color: #F5F6F8; }
 
